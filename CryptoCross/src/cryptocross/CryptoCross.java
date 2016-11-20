@@ -1,7 +1,7 @@
 package cryptocross;
 
 /**
- * I wanna play a game
+ * I wanna play a game.
  */
 public class CryptoCross {
 
