@@ -1,3 +1,5 @@
+package cryptocross;
+
 /**
  * I wanna play a game
  */
