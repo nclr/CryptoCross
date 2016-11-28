@@ -40,7 +40,7 @@ public class Dictionary {
     /*
      * Constuctor.
      * @param filename The name of the dictionary used for the board
-     * @param boardLength The length of one dimension of the board
+     * @param boardLength The length of one dimension of the board.
      */
     public Dictionary(String filename, int boardLength) {
         boardWords = new ArrayList<>();
@@ -72,11 +72,6 @@ public class Dictionary {
     public void generateBoardWords() {
         boardSize           =   boardLength * boardLength;
         filledLetters       =   0;
-        int   minEmptyLetters  =   (boardLength * 5) / 6;
-        int   maxEmptyLetters  = ((boardLength * 5) / 6) + 6;
-        // We want our table to be filled with at least minEmptyLetters
-        // and not more than maxEmptyLetters
-        // so that we can add some random characters afterwards.
        
         int lettersToGet = lettersToGet(filledLetters);
         
@@ -96,7 +91,6 @@ public class Dictionary {
             // Request how many more characters we can add to 
             // the board.
             lettersToGet = lettersToGet(filledLetters);
-            
         }
     }
     
@@ -107,6 +101,13 @@ public class Dictionary {
      */
     private int lettersToGet(int filledLetters) {
         
+        // We want our table to be filled with at least minEmptyLetters
+        // and not more than maxEmptyLetters
+        // so that we can add some random characters afterwards.
+
+        // Simple function in order to have variable length of 
+        // empty characters in order with the boardlength
+        // (eg. the bigger the board the more spaces should be available)
         int minEmptyLetters     = (boardLength * 5) / 6;
         int maxEmptyLetters     = ((boardLength * 5) / 6) + 3;
         int minFilledLetters    = boardSize - maxEmptyLetters;
