@@ -101,9 +101,10 @@ public class Dictionary {
      */
     private int lettersToGet(int filledLetters) {
         
-        // We want our table to be filled with at least minEmptyLetters
-        // and not more than maxEmptyLetters so that we
-        // can add some random characters afterwards.
+        // We want our table to be filled with at least minFilledLetters
+        // and not more than maxFilledLetters so that we
+        // can add some random characters afterwards (with length 
+        // between minEmptyLetters and maxEmptyLetters).
 
         // Simple function in order to have variable length of 
         // empty characters in order with the boardlength
