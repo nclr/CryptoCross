@@ -6,7 +6,7 @@
 package cryptocross;
 
 //Class for the player
-public class Player {
+public class Player implements PlayerInterface {
 
     private String str_playerName; //The players name
     
@@ -24,31 +24,38 @@ public class Player {
     }
 
     //Getters
+    @Override
     public String getPlayerName() {
         return str_playerName;
     }
     
+    @Override
     public Integer getPlayerScore() {
         return int_playerScore;
     }
 
+    @Override
     public Integer getCompletedWordsNum() {
         return int_wordsCompleted;
     }
     
     //Setters
+    @Override
     public void setPlayerName(String str_playerName) {
         this.str_playerName = str_playerName;
     }
     
+    @Override
     public void setPlayerScore(Integer int_playerScore) {
         this.int_playerScore = int_playerScore;
     }
     
+    @Override
     public void setCompletedWordsNum(Integer int_wordsCompleted) {
         this.int_wordsCompleted = int_wordsCompleted;
     }
     
+    @Override
     public void playerCompletedAWord() {
         this.int_wordsCompleted++;
     }

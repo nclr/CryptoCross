@@ -41,12 +41,13 @@ public class GameEngine implements GameEngineInterface {
         return int_boardSize;
     }
     
-            
-    //Setters
-    public void setBoardSize(Integer int_boardSize) {
-        this.int_boardSize = int_boardSize;
-    }
     
+    //Setters
+//    public void setBoardSize(Integer int_boardSize) {
+//        this.int_boardSize = int_boardSize;
+//    }
+    
+    //Function for the flow loop of the game
     public void play() {
         
     }

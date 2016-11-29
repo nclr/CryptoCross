@@ -9,4 +9,6 @@ package cryptocross;
 //Interface of the Board class
 public interface BoardInterface {
     
+    public Letter[][] getBoardArray();
+    
 }
