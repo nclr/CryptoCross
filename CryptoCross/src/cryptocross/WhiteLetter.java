@@ -9,6 +9,7 @@ package cryptocross;
 //Class of a single letter
 public class WhiteLetter extends Letter {
     
+    //Constructors
     public WhiteLetter(Letter.Alphabet enum_letter) {
         super(enum_letter);
         //this.ch_letter = ch_letter;
@@ -18,6 +19,8 @@ public class WhiteLetter extends Letter {
     public WhiteLetter(Character ch_letter) {
         super(ch_letter);
     }
+    
+    
     
     @Override
     public void setPoints(Integer int_points) {

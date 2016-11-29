@@ -8,6 +8,7 @@ package cryptocross;
 //Class of a single letter
 public class BlueLetter extends Letter {
     
+    //Constructors
     public BlueLetter(Letter.Alphabet enum_letter) {
         super(enum_letter);
         //this.ch_letter = ch_letter;

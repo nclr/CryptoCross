@@ -16,7 +16,9 @@ public class Player {
     private Integer int_wordsCompleted; //The number of words the player has
     //completed
 
+    //Constructor
     public Player() {
+        //Starting values, initialization
         this.int_playerScore = 0;
         this.int_wordsCompleted = 0;
     }

@@ -8,12 +8,13 @@ package cryptocross;
 //Class of a single letter
 public class RedLetter extends Letter {
 
+    //Constructors
     public RedLetter(Letter.Alphabet enum_letter) {
         super(enum_letter);
         //this.ch_letter = ch_letter;
         //this.enum_letter = enum_letter;
     }
-
+    
     public RedLetter(Character ch_letter) {
         super(ch_letter);
     }
