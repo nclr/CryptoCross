@@ -20,7 +20,7 @@ public abstract class Letter {
     //points value
 
     protected enum Alphabet {
-        Α, Β, Γ, Δ, Ε, Ζ, Η, Θ, Ι, Κ, Λ, Μ, Ν, Ξ, Ο, Π, Ρ, Σ, Τ, Υ, Φ, Χ, Ψ, Ω
+        Α, 
     }
 
     //Constructor
@@ -71,6 +71,7 @@ public abstract class Letter {
 
     //Assign points according to letter
     protected void assignPoints() {
+        /*
         switch (enum_letter) {
             case Α:
             case Ε:
@@ -100,6 +101,7 @@ public abstract class Letter {
 
                 break;
         }
+*/
     }
 
     public void setCoords(Integer int_x_coord, Integer int_y_coord) {

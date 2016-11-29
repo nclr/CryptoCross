@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class Dictionary {
     
-    private     ArrayList<String>   list;
+    private     ArrayList<String>   wordlist;
     private     ArrayList<String>   boardWords;
     private     int                 boardSize;
     private     int                 filledLetters;
@@ -44,17 +44,17 @@ public class Dictionary {
      */
     public Dictionary(String filename, int boardLength) {
         boardWords = new ArrayList<>();
-        list = new ArrayList<>();
+        wordlist = new ArrayList<>();
         this.boardLength = boardLength;
         
         // Read the dictionary from disk to an ArrayList.
         Scanner s;
         try {
             s = new Scanner(new File(filename));
-            list = new ArrayList<>();
+            wordlist = new ArrayList<>();
             while (s.hasNext()) {
                 String word = Capitalize(s.next());
-                list.add(word);
+                wordlist.add(word);
             }
             s.close();
         } catch (FileNotFoundException ex) {
@@ -148,8 +148,8 @@ public class Dictionary {
         do {
             // Get a new word.
             found = false;
-            randomNumber = random.nextInt(list.size() - 1);
-            nuWord = list.get(randomNumber);
+            randomNumber = random.nextInt(wordlist.size() - 1);
+            nuWord = wordlist.get(randomNumber);
             // Check that is not previously selected.
             for (String usedWord : boardWords) {
                 if (usedWord.equals(nuWord)) {
@@ -168,7 +168,7 @@ public class Dictionary {
      *  @return A flag explaining if the word is in the board or not.
      */
     public Boolean containsWord(String wordToFind) {
-        for (String word : list) {
+        for (String word : wordlist) {
             if (word.equals(wordToFind)) {
                 return true;
             }
