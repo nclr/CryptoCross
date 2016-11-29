@@ -32,11 +32,13 @@ public class GameEngine implements GameEngineInterface {
          initializeGame();
     }
     
+    @Override
     public void initializeGame() {
         player = new Player();
     }
     
     //Getters
+    @Override
     public Integer getBoardSize() {
         return int_boardSize;
     }
@@ -48,6 +50,7 @@ public class GameEngine implements GameEngineInterface {
 //    }
     
     //Function for the flow loop of the game
+    @Override
     public void play() {
         
     }
@@ -55,7 +58,8 @@ public class GameEngine implements GameEngineInterface {
     //Check if a word is valid and grade it
     //@returns the word's points if valid or
     //-1 if word doesn't exist
-//    public Integer checkAndGradeWord(ArrayList al_word) {
-//        return gameBoard.checkAndGradeWord(al_word);
-//    }
+    @Override
+    public Integer checkAndGradeWord(ArrayList al_word) {
+        return gameBoard.checkAndGradeWord(al_word);
+    }
 }
