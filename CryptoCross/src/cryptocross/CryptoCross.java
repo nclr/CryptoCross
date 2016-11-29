@@ -8,7 +8,7 @@ package cryptocross;
 public class CryptoCross {
 
     public static void main(String[] args) {
-
+        Board newboard = new Board(10);
     }
     
 }

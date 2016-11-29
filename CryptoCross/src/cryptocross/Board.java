@@ -7,26 +7,37 @@ package cryptocross;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 //Class for the game board
 public class Board implements BoardInterface {
 
     //List<List<Letter>> letterBoard; //List of lists for the letters
-    private Integer length;
+    private Integer boardLength;
     private Letter[][] boardArray;
     private Dictionary dict;
     private SecureRandom random;
+    
+    private int coloredX[];
+    private int coloredY[];
+    private int coloredLettersCount;
 
+    private int redCount = 0, blueCount = 0, balCount = 0;
+    
     public Board(Integer boardLength) {
-        this.length = boardLength;
+        this.boardLength = boardLength;
         boardArray = new Letter[boardLength][boardLength];
-         random = new SecureRandom();
+        random = new SecureRandom();
         
         dict = new Dictionary("el-dictionary.txt", boardLength);
         
-        int redCount = 0, blueCount = 0, balCount = 0;
-        switch(boardLength) {
+        generateBoard();
+    }
+    
+    private void generateBoard() {
+        
+        switch (boardLength) {
             case 5:
                 redCount = 2;
                 blueCount = 1;
@@ -44,38 +55,113 @@ public class Board implements BoardInterface {
                 break;
         }
         
-        ArrayList<Integer> randomPositions = decideColor(redCount + blueCount + balCount);
-        
-        
-        
-        
-//        for (int i = 0; i < boardArray.length; i++) {
-//
-//	    // Loop and display sub-arrays.
-//	    int[] sub = values[i];
-//	    for (int x = 0; x < sub.length; x++) {
-//		System.out.print(sub[x] + " ");
-//	    }
+        coloredLettersCount = redCount + blueCount + balCount;
 
-        //letterBoard = new ArrayList<List<Letter>>();
+        coloredX = randomArrayGen(coloredLettersCount);
+        coloredY = randomArrayGen(coloredLettersCount);
+        
+        int i = 0, j = 0;
+        for (String word : dict.getBoardWords()) {
+            for (char c : word.toCharArray()) {
+                Letter let = decideColor(i,j,c);
+                boardArray[i][j] = let;
+                System.out.println("for " + i + "," + j + "letter is " + let);
+                
+                if (j + 1 == boardLength) {
+                    j = 0;
+                    i++;
+                } else {
+                    j++;
+                }
+            }
+            
+        }
+        
+        while (i < boardLength) {
+            while (j < boardLength) {
+                System.out.println("continue at " + i + "," + j);
+                Character c = getRandomChar();
+                Letter let = decideColor(i, j, c);
+                boardArray[i][j] = let;
+                if (j + 1 == boardLength) {
+                    j = 0;
+                    i++;
+                   
+                } else {
+                    j++;
+                }
+            }
+        }
+        
+        show();
+        shuffle(boardArray);
+        show();
     }
     
-    private ArrayList<Integer> decideColor(Integer count) {
+    /* Fisher- Yates Shuffle */
+    private void shuffle(Letter[][] a) {
+
+        for (int i = a.length - 1; i > 0; i--) {
+            for (int j = a[i].length - 1; j > 0; j--) {
+                int m = random.nextInt(i + 1);
+                int n = random.nextInt(j + 1);
+
+                Letter temp = a[i][j];
+                a[i][j] = a[m][n];
+                a[m][n] = temp;
+            }
+        }
+    }
+
+    
+    private Letter decideColor(int x, int y, char c) {
+        if (isColored(x,y)) {
+            if (redCount > 0) {
+                redCount--;
+                return new RedLetter(c); // red
+            }
+            else if (blueCount > 0){
+                blueCount--;
+                return new BlueLetter(c);
+            }
+            else {
+                return new BalandeurLetter(c);
+            }
+        }
         
-        ArrayList<Integer> result = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            Integer newNumber;
-            do {
-                newNumber = random.nextInt(length - 1);
-            } while (existInList(newNumber, result));
+        return new WhiteLetter(c);
+    }
+    
+    private Boolean isColored(int x, int y) {
+        for (int i = 0; i < coloredLettersCount; i++) {
+            if (coloredX[i] == x && coloredY[i] == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private int[] randomArrayGen(Integer size) {
+        
+        int result[] = new int[size];
+        for (int i = 0; i < size; i++) {
+            Integer newNumber = 0;
+            if (i > 0) {
+                do {
+                    newNumber = random.nextInt(boardLength - 1);
+                } while (existInArray(newNumber, result));
+            }
+
+            result[i] = newNumber;
         }
         
         return result;
     }
     
-    private Boolean existInList(int number, ArrayList<Integer> list) {
-        for (Integer num : list) {
-            if (number == num) {
+    private Boolean existInArray(int number, int[] array) {
+
+        for (int i = 0; i < array.length; i++) {
+            if (number == array[i]) {
                 return true;
             }
         }
@@ -85,5 +171,24 @@ public class Board implements BoardInterface {
 
     public Letter[][] getBoardArray() {
         return boardArray;
+    }
+    
+    private Character getRandomChar() {
+        final String alphabet = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ";
+        final int N = alphabet.length();
+
+        return alphabet.charAt(random.nextInt(N));
+    }
+    
+    public void show() {
+        System.out.println("------------------------");
+        for (int i = 0; i < boardLength; i++) {
+            for (int j = 0; j < boardLength; j++) {
+                System.out.println("running for " + i + "," + j);
+                System.out.print(boardArray[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("------------------------");
     }
 }

@@ -20,7 +20,7 @@ public abstract class Letter {
     //points value
 
     protected enum Alphabet {
-        Α, 
+        A, 
     }
 
     //Constructor

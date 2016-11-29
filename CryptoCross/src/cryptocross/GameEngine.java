@@ -55,7 +55,7 @@ public class GameEngine implements GameEngineInterface {
     //Check if a word is valid and grade it
     //@returns the word's points if valid or
     //-1 if word doesn't exist
-    public Integer checkAndGradeWord(ArrayList al_word) {
-        return gameBoard.checkAndGradeWord(al_word);
-    }
+//    public Integer checkAndGradeWord(ArrayList al_word) {
+//        return gameBoard.checkAndGradeWord(al_word);
+//    }
 }
