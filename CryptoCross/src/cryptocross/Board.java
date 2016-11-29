@@ -65,7 +65,6 @@ public class Board implements BoardInterface {
             for (char c : word.toCharArray()) {
                 Letter let = decideColor(i,j,c);
                 boardArray[i][j] = let;
-                System.out.println("for " + i + "," + j + "letter is " + let);
                 
                 if (j + 1 == boardLength) {
                     j = 0;
@@ -79,18 +78,13 @@ public class Board implements BoardInterface {
         
         while (i < boardLength) {
             while (j < boardLength) {
-                System.out.println("continue at " + i + "," + j);
                 Character c = getRandomChar();
                 Letter let = decideColor(i, j, c);
                 boardArray[i][j] = let;
-                if (j + 1 == boardLength) {
-                    j = 0;
-                    i++;
-                   
-                } else {
-                    j++;
-                }
+                j++;
             }
+            j=0;
+            i++;
         }
         
         show();
@@ -184,8 +178,7 @@ public class Board implements BoardInterface {
         System.out.println("------------------------");
         for (int i = 0; i < boardLength; i++) {
             for (int j = 0; j < boardLength; j++) {
-                System.out.println("running for " + i + "," + j);
-                System.out.print(boardArray[i][j] + " ");
+                System.out.print(boardArray[i][j].ch_letter + " ");
             }
             System.out.println();
         }

@@ -60,6 +60,7 @@ public class GameEngine implements GameEngineInterface {
     //-1 if word doesn't exist
     @Override
     public Integer checkAndGradeWord(ArrayList al_word) {
-        return gameBoard.checkAndGradeWord(al_word);
+        return 0;
+        //return gameBoard.checkAndGradeWord(al_word);
     }
 }
