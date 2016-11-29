@@ -10,10 +10,10 @@ import java.util.List;
 
 
 //Class for the game board
-public class Board {
-    List<List<Letter>> letterBoard; //list of lists for the letters
+public class Board implements BoardInterface {
+    //List<List<Letter>> letterBoard; //List of lists for the letters
     
     public Board() {
-        letterBoard = new ArrayList<List<Letter>>();
+        //letterBoard = new ArrayList<List<Letter>>();
     }
 }

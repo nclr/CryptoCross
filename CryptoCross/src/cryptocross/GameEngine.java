@@ -7,6 +7,15 @@ package cryptocross;
 
 
 //Class for the game logic
-public class GameEngine {
+public class GameEngine implements GameEngineInterface {
+    
+    Dictionary dict;
+    
+    //Constructor
+    public GameEngine() {
+         //dict = new Dictionary();
+    }
+    
+    
     
 }
