@@ -5,6 +5,8 @@
  */
 package cryptocross;
 
+import java.util.ArrayList;
+
 
 //Class for the game logic
 public class GameEngine implements GameEngineInterface {
@@ -24,6 +26,14 @@ public class GameEngine implements GameEngineInterface {
     //Constructor
     public GameEngine() {
          //dict = new Dictionary();
+         //gameBoard = new Board();
+         //player = new Player();
+         
+         initializeGame();
+    }
+    
+    public void initializeGame() {
+        player = new Player();
     }
     
     //Getters
@@ -35,5 +45,16 @@ public class GameEngine implements GameEngineInterface {
     //Setters
     public void setBoardSize(Integer int_boardSize) {
         this.int_boardSize = int_boardSize;
+    }
+    
+    public void play() {
+        
+    }
+    
+    //Check if a word is valid and grade it
+    //@returns the word's points if valid or
+    //-1 if word doesn't exist
+    public Integer checkAndGradeWord(ArrayList al_word) {
+        return gameBoard.checkAndGradeWord(al_word);
     }
 }

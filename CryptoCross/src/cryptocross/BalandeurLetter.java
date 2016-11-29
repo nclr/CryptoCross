@@ -6,7 +6,25 @@
 package cryptocross;
 
 
+//Class of a balandeur letter
+public class BalandeurLetter extends Letter {
+    
+    //Constructors
+    public BalandeurLetter(Letter.Alphabet enum_letter) {
+        super(enum_letter);
+        //this.ch_letter = ch_letter;
+        //this.enum_letter = enum_letter;
+    }
 
-public class BalandeurLetter {
+    public BalandeurLetter(Character ch_letter) {
+        super(ch_letter);
+    }
+    
+    
+    
+    @Override
+    public void setPoints(Integer int_points) {
+        this.int_points = int_points;
+    }
     
 }
