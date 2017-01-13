@@ -236,27 +236,42 @@ public class Board implements BoardInterface {
     }
 
     //Delete a row of the game board
+    @Override
     public void deleteRow(Integer int_row) {
 
     }
 
     //Reorder a row of the game board
+    @Override
     public void reorderRow(Integer int_row) {
 
     }
 
     //Reorder a column of the game board
+    @Override
     public void reorderColumn(Integer int_column) {
 
     }
 
     //Reorder the game board
+    @Override
     public void reorderBoard() {
         shuffle(boardArray);
     }
 
     //Swap 2 Letters
+    @Override
     public void swapLetters(Letter letter1, Letter letter2) {
 
+    }
+    
+    //Check if a word exists in the dictionary
+    @Override
+    public Boolean checkWordValidity(ArrayList<Letter> word) {
+        if (true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -29,6 +30,7 @@ public class CryptoCross extends JFrame {
     private Integer int_goalPoints; //The target/goal number of points to be attained
     //by the player.
     private Integer int_currentWordPoints;
+    private ArrayList<Letter> currentWord;
 
     //Total allowed helps
     private Integer int_TotalDeleteRow = 3;
@@ -112,9 +114,11 @@ public class CryptoCross extends JFrame {
     //Constructor
     public CryptoCross() {
 
-        wordPilot = new WordPilot(ar_letters);   
+        wordPilot = new WordPilot(ar_letters);
 
         thisFrame = this;
+
+        currentWord = new ArrayList<>();
 
         //Initialize Player
         initializePlayer();
@@ -129,11 +133,11 @@ public class CryptoCross extends JFrame {
         } catch (UknownCharacterException ex) {
             Logger.getLogger(CryptoCross.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         initializeGameValues(); //goal score & helps
 
         initializeGUI();
-        
+
         checkHelps();
 
     }
@@ -160,7 +164,7 @@ public class CryptoCross extends JFrame {
 
     private void initializeGameValues() {
         int_currentWordPoints = 0;
-        
+
         if (gameBoard.getBoardLength() == 5) {
             int_maxAllowedWords = 4;
             int_goalPoints = 200;
@@ -193,7 +197,7 @@ public class CryptoCross extends JFrame {
         int_UsedReorderBoard = 0;
         int_UsedSwapLetter = 0;
     }
-    
+
     //Checks if any more helps are available and grays out accordingly
     private void checkHelps() {
         if (int_UsedDeleteRow == int_TotalDeleteRow) {
@@ -492,12 +496,21 @@ public class CryptoCross extends JFrame {
                 btnArray_letter[i][j].setBorder(BorderFactory.createEmptyBorder());
                 btnArray_letter[i][j].setPreferredSize(new Dimension(48, 48));
 
+                Letter tempLetter = ar_letters[i][j];
+                Integer tempXpos = currentWord.get(currentWord.size() - 1).getXcoord();
+                Integer tempYpos = currentWord.get(currentWord.size() - 1).getYcoord();
+
                 btnArray_letter[i][j].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (((JButton) e.getSource()).getBackground().equals(Color.YELLOW)) {
-                            ((JButton) e.getSource()).setBackground(tempColor);
+
+//                            if (wordPilot.isNeighbour(i, j, tempXpos, tempYpos)) {
+//                                ((JButton) e.getSource()).setBackground(tempColor);
+//                            }
                         } else {
                             ((JButton) e.getSource()).setBackground(Color.YELLOW);
+
+                            currentWord.add(tempLetter);
                         }
                     }
                 });
@@ -597,7 +610,7 @@ public class CryptoCross extends JFrame {
 
         setJMenuBar(menuBar);
     }
-    
+
     private void newGameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
         thisFrame.dispatchEvent(new WindowEvent(thisFrame, WindowEvent.WINDOW_CLOSING));
         new CryptoCross();
@@ -639,7 +652,7 @@ public class CryptoCross extends JFrame {
                 "Συντελεστές:\nΧάρης Ιωαννίκιος Καώνης icsd10069\nΓεώργιος Μουστάκας icsd11102", "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    //File Chooser Listener
+    //Additional listeners
     public void actionPerformed(ActionEvent e) {
 //        if (e.getSource() == openButton) {
 //            int returnVal = ((JFileChooser) e.getSource()).showOpenDialog();
@@ -651,6 +664,21 @@ public class CryptoCross extends JFrame {
 //                //Logger.getLogger(CryptoCross.class.getName()).append("Open command cancelled by user." + "\n");
 //            }
 //        }
+        if (e.getSource() == btn_checkWord) {
+
+        } else if (e.getSource() == btn_checkWord) {
+            gameBoard.checkWordValidity(currentWord);
+        } else if (e.getSource() == btn_deleteRow) {
+
+        } else if (e.getSource() == btn_reorderRow) {
+
+        } else if (e.getSource() == btn_reorderColumn) {
+
+        } else if (e.getSource() == btn_reorderBoard) {
+
+        } else if (e.getSource() == btn_swapLetters) {
+
+        }
     }
 
 }

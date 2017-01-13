@@ -5,6 +5,8 @@
  */
 package cryptocross;
 
+import java.util.ArrayList;
+
 
 //Interface of the Board class
 public interface BoardInterface {
@@ -24,5 +26,7 @@ public interface BoardInterface {
     public void reorderBoard();
     
     public void swapLetters(Letter letter1, Letter letter2);
+    
+    public Boolean checkWordValidity(ArrayList<Letter> word);
         
 }
