@@ -8,7 +8,7 @@ package cryptocross;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,10 +20,24 @@ import javax.swing.border.BevelBorder;
 public class CryptoCross extends JFrame {
 
     private JFrame thisFrame;
-    private Letter[][] ar_letters;
+    private Letter[][] ar_letters; //board letter array
     private Player player; //Player object for the player
     private Board gameBoard; //Board object for the game board
     private GameEngine gameEngine;
+    
+    //Total allowed helps
+    private final Integer int_TotalDeleteRow = 3;
+    private final Integer int_TotalReorderRow = 3;
+    private final Integer int_TotalReorderColumn = 3;
+    private final Integer int_TotalReorderBoard = 5;
+    private final Integer int_TotalSwapLetter = 6;
+
+    //Number of used helps
+    private Integer int_UsedDeleteRow;
+    private Integer int_UsedReorderRow;
+    private Integer int_UsedReorderColumn;
+    private Integer int_UsedReorderBoard;
+    private Integer int_UsedSwapLetter;
 
     private Container contentPane;
     //JPanels
@@ -33,6 +47,16 @@ public class CryptoCross extends JFrame {
     private JPanel boardPanel; //Child of leftPanel
     private JPanel helpPanel; //Child of rightPanel
     private JPanel playerNamePanel; //Child of contentPane
+    private JPanel row1Panel;
+    private JPanel row2Panel;
+    private JPanel row3Panel;
+    private JPanel row4Panel;
+    private JPanel row5Panel;
+    private JPanel row6Panel;
+    private JPanel row7Panel;
+    private JPanel row8Panel;
+    private JPanel row9Panel;
+    private JPanel row10Panel;
     //Menus
     private JMenuBar menuBar; //Menu Bar that will hold the menus
     private JMenu mainMenu; //Main menu containing all the main game functions
@@ -50,23 +74,45 @@ public class CryptoCross extends JFrame {
     //letter JButtons
     private JButton[][] btnArray_letter;
     private JButton btn_deleteRow;
-    private JButton btn_shuffleRow;
-    private JButton btn_shuffleColumn;
-    private JButton btn_shuffleBoard;
+    private JButton btn_reorderRow;
+    private JButton btn_reorderColumn;
+    private JButton btn_reorderBoard;
     private JButton btn_swapLetters;
     private JButton btn_checkWord;
     //JTextFields
     //Help JTF
     private JTextField tf_deleteRow;
-    private JTextField tf_shuffleRow;
-    private JTextField tf_shuffleColumn;
+    private JTextField tf_reorderRow;
+    private JTextField tf_reorderColumn;
     //Player Info JTF
     private JTextField tf_playerName;
     //JLabels
     private JLabel lb_playerName;
+    private JLabel lb_deleteRow;
+    private JLabel lb_reorderRow;
+    private JLabel lb_reorderColumn;
+    private JLabel lb_reorderBoard;
+    private JLabel lb_swapLetters;
+    private JLabel lb1_goalPoints;
+    private JLabel lb2_goalPoints;
+    private JLabel lb1_totalPoints;
+    private JLabel lb2_totalPoints;
+    private JLabel lb1_wordPoints;
+    private JLabel lb2_wordPoints;
+    private JLabel lb1_wordsFound;
+    private JLabel lb2_wordsFound;
+    private JLabel lb_foundAword;
 
     //Constructor
     public CryptoCross() {
+
+        
+        
+        int_UsedDeleteRow = 0;
+        int_UsedReorderRow = 0;
+        int_UsedReorderColumn = 0;
+        int_UsedReorderBoard = 0;
+        int_UsedSwapLetter = 0;
 
         thisFrame = this;
 
@@ -94,7 +140,7 @@ public class CryptoCross extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                //Χρήση του θέματος εμφάνισης (LookAndFeel) Nimbus
+                //Set game LookAndFeel to Nimbus
                 try {
                     for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                         if ("Nimbus".equals(info.getName())) {
@@ -103,7 +149,7 @@ public class CryptoCross extends JFrame {
                         }
                     }
                 } catch (Exception e) {
-                    // If Nimbus is not available, you can set the GUI to another look and feel.
+                    // Nimbus unavailable
                 }
                 new CryptoCross();
             }
@@ -202,6 +248,107 @@ public class CryptoCross extends JFrame {
 
         rightPanel.add(helpPanel);
 
+        //Help Buttons
+        btn_deleteRow = new JButton("Διαγραφή Γραμμής");
+        btn_reorderRow = new JButton("Αναδιάταξη Γραμμής");
+        btn_reorderColumn = new JButton("Αναδιάταξη Στήλης");
+        btn_reorderBoard = new JButton("Αναδιάταξη Ταμπλό");
+        btn_swapLetters = new JButton("Εναλλαγή Γραμμάτων");
+
+        //Help Text Fields
+        tf_deleteRow = new JTextField("0");
+        tf_reorderRow = new JTextField("0");
+        tf_reorderColumn = new JTextField("0");
+
+        //Help Labels
+        lb_deleteRow = new JLabel("0/3");
+        lb_reorderRow = new JLabel("0/3");
+        lb_reorderColumn = new JLabel("0/3");
+        lb_reorderBoard = new JLabel("0/5");
+        lb_swapLetters = new JLabel("0/6");
+        lb1_goalPoints = new JLabel("Στόχος:");
+        lb2_goalPoints = new JLabel("200");
+        lb1_totalPoints = new JLabel("Συνολική Βαθμολογία:");
+        lb2_totalPoints = new JLabel("0");
+        lb1_wordPoints = new JLabel("Βαθμολογία Λέξης:");
+        lb2_wordPoints = new JLabel("0");
+        lb1_wordsFound = new JLabel("Λέξεις που βρέθηκαν:");
+        lb2_wordsFound = new JLabel("0/4");
+        lb_foundAword = new JLabel("");
+        
+        row1Panel = new JPanel(new BorderLayout());
+        row2Panel = new JPanel(new BorderLayout());
+        row3Panel = new JPanel(new BorderLayout());
+        row4Panel = new JPanel(new BorderLayout());
+        row5Panel = new JPanel(new BorderLayout());
+        row6Panel = new JPanel(new BorderLayout());
+        row7Panel = new JPanel(new BorderLayout());
+        row8Panel = new JPanel(new BorderLayout());
+        row9Panel = new JPanel(new BorderLayout());
+        row10Panel = new JPanel(new BorderLayout());
+        
+        //Right Row1
+        row1Panel.add(btn_reorderRow, BorderLayout.LINE_START);
+        row1Panel.add(tf_deleteRow, BorderLayout.CENTER);
+        row1Panel.add(lb_deleteRow, BorderLayout.LINE_END);
+        
+        rightPanel.add(row1Panel);
+        
+        //Right Row2
+        row2Panel.add(btn_deleteRow, BorderLayout.LINE_START);
+        row2Panel.add(tf_reorderRow, BorderLayout.CENTER);
+        row2Panel.add(lb_reorderRow, BorderLayout.LINE_END);
+        
+        rightPanel.add(row2Panel);
+        
+        //Right Row3
+        row3Panel.add(btn_reorderColumn, BorderLayout.LINE_START);
+        row3Panel.add(tf_reorderColumn, BorderLayout.CENTER);
+        row3Panel.add(lb_reorderColumn, BorderLayout.LINE_END);
+        
+        rightPanel.add(row3Panel);
+        
+        //Right Row4
+        row4Panel.add(btn_reorderBoard, BorderLayout.LINE_START);
+        row4Panel.add(lb_reorderBoard, BorderLayout.LINE_END);
+        
+        rightPanel.add(row4Panel);
+        
+        //Right Row5
+        row5Panel.add(btn_swapLetters, BorderLayout.LINE_START);
+        row5Panel.add(lb_swapLetters, BorderLayout.LINE_END);
+        
+        rightPanel.add(row5Panel);
+        
+        //Right Row6
+        row6Panel.add(lb1_goalPoints, BorderLayout.LINE_START);
+        row6Panel.add(lb2_goalPoints, BorderLayout.LINE_END);
+        
+        rightPanel.add(row6Panel);
+        
+        //Right Row7
+        row7Panel.add(lb1_totalPoints, BorderLayout.LINE_START);
+        row7Panel.add(lb2_totalPoints, BorderLayout.LINE_END);
+        
+        rightPanel.add(row7Panel);
+        
+        //Right Row8
+        row8Panel.add(lb1_wordPoints, BorderLayout.LINE_START);
+        row8Panel.add(lb2_wordPoints, BorderLayout.LINE_END);
+        
+        rightPanel.add(row8Panel);
+        
+        //Right Row9
+        row9Panel.add(lb1_wordsFound, BorderLayout.LINE_START);
+        row9Panel.add(lb2_wordsFound, BorderLayout.LINE_END);
+        
+        rightPanel.add(row9Panel);
+        
+        //Right Row10
+        row10Panel.add(lb_foundAword, BorderLayout.LINE_START);
+        
+        rightPanel.add(row10Panel);
+
         containerPanel.add(leftPanel);
         containerPanel.add(rightPanel);
         contentPane.add(containerPanel);
@@ -221,7 +368,6 @@ public class CryptoCross extends JFrame {
 
         pack();
 
-        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("CryptoCross");  // 
 //        if (gameBoard.getBoardLength() == 5) {
@@ -245,6 +391,7 @@ public class CryptoCross extends JFrame {
                 String str_letterBtnTxt = ar_letters[i][j].getLetterChar()
                         + " " + ar_letters[i][j].getPoints();
 
+                //Only some letters icons have been made
                 try {
                     if (ar_letters[i][j].getLetterChar() == 'Α') {
 
@@ -396,7 +543,8 @@ public class CryptoCross extends JFrame {
     }
 
     private void newGameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
-
+        thisFrame.dispatchEvent(new WindowEvent(thisFrame, WindowEvent.WINDOW_CLOSING));
+        new CryptoCross();
     }
 
     private void stopGameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
@@ -422,6 +570,7 @@ public class CryptoCross extends JFrame {
     }
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
+        thisFrame.dispatchEvent(new WindowEvent(thisFrame, WindowEvent.WINDOW_CLOSING));
         System.exit(0);
     }
 
