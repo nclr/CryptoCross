@@ -597,7 +597,7 @@ public class CryptoCross extends JFrame {
 
         setJMenuBar(menuBar);
     }
-
+    
     private void newGameMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
         thisFrame.dispatchEvent(new WindowEvent(thisFrame, WindowEvent.WINDOW_CLOSING));
         new CryptoCross();
