@@ -15,4 +15,14 @@ public interface BoardInterface {
     
     public Integer getWordsNum();
     
+    public void deleteRow(Integer int_row);
+
+    public void reorderRow(Integer int_row);
+
+    public void reorderColumn(Integer int_column);
+
+    public void reorderBoard();
+    
+    public void swapLetters(Letter letter1, Letter letter2);
+        
 }

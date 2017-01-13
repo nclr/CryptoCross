@@ -18,14 +18,14 @@ public class Board implements BoardInterface {
     private Dictionary dict;
     private SecureRandom random;
     private Integer wordsNum;
-    
+
     private int coloredX[];
     private int coloredY[];
     private int coloredLettersCount;
 
     private int redCount = 0, blueCount = 0, balCount = 0;
-    
-     /*
+
+    /*
      * Constuctor.
      * @param boardLength The length of the board
      */
@@ -33,20 +33,20 @@ public class Board implements BoardInterface {
         this.boardLength = boardLength;
         boardArray = new Letter[boardLength][boardLength];
         random = new SecureRandom();
-        
+
         dict = new Dictionary("el-dictionary.txt", boardLength);
-        
+
         wordsNum = 0;
-        
+
         generateBoard();
     }
-    
+
     /*
      * Method to generate a new board based on boardLength.
      * @return nothing.
      */
     private void generateBoard() throws UknownCharacterException {
-        
+
         switch (boardLength) {
             case 5:
                 redCount = 2;
@@ -64,21 +64,20 @@ public class Board implements BoardInterface {
                 balCount = random.nextInt(2);
                 break;
         }
-        
+
         /* We determine what colors should be placed in each letter. */
-        
         coloredLettersCount = redCount + blueCount + balCount;
 
         coloredX = randomArrayGen(coloredLettersCount);
         coloredY = randomArrayGen(coloredLettersCount);
-        
+
         int i = 0, j = 0;
         for (String word : dict.getBoardWords()) {
             wordsNum++;
             for (char c : word.toCharArray()) {
-                Letter let = decideColor(i,j,c);
+                Letter let = decideColor(i, j, c);
                 boardArray[i][j] = let;
-                
+
                 if (j + 1 == boardLength) {
                     j = 0;
                     i++;
@@ -87,7 +86,7 @@ public class Board implements BoardInterface {
                 }
             }
         }
-        
+
         while (i < boardLength) {
             while (j < boardLength) {
                 Character c = getRandomChar();
@@ -95,16 +94,16 @@ public class Board implements BoardInterface {
                 boardArray[i][j] = let;
                 j++;
             }
-            j=0;
+            j = 0;
             i++;
         }
-        
+
         /* We shuffle the board using Fisher-Yates algorithm. */
         show();
         shuffle(boardArray);
         show();
     }
-    
+
     /* Fisher- Yates Shuffle */
     private void shuffle(Letter[][] a) {
 
@@ -128,23 +127,21 @@ public class Board implements BoardInterface {
      * @return Letter.
      */
     private Letter decideColor(int x, int y, char c) throws UknownCharacterException {
-        if (isColored(x,y)) {
+        if (isColored(x, y)) {
             if (redCount > 0) {
                 redCount--;
                 return new RedLetter(c); // red
-            }
-            else if (blueCount > 0){
+            } else if (blueCount > 0) {
                 blueCount--;
                 return new BlueLetter(c);
-            }
-            else {
+            } else {
                 return new BalandeurLetter('?');
             }
         }
-        
+
         return new WhiteLetter(c);
     }
-    
+
     /*
      * Method to return if a letter is colord.
      * @return true if colored or false for the opposite.
@@ -157,14 +154,14 @@ public class Board implements BoardInterface {
         }
         return false;
     }
-    
+
     /*
      * Method to generate a new random array.
      * @param size The size of the array.
      * @return Array of Integers.
      */
     private int[] randomArrayGen(Integer size) {
-        
+
         int result[] = new int[size];
         for (int i = 0; i < size; i++) {
             Integer newNumber = 0;
@@ -176,10 +173,10 @@ public class Board implements BoardInterface {
 
             result[i] = newNumber;
         }
-        
+
         return result;
     }
-    
+
     /*
      * Method to find if a certain number exists in an array.
      * @param number The number to find.
@@ -193,41 +190,40 @@ public class Board implements BoardInterface {
                 return true;
             }
         }
-        
+
         return false;
     }
 
     /*
      * Getters.
      */
-    
     public Letter[][] getBoardArray() {
         return boardArray;
     }
-    
+
     public Integer getBoardLength() {
         return boardLength;
     }
-    
+
     public Integer getWordsNum() {
         return wordsNum;
     }
-    
-     /*
+
+    /*
      * Method to generate a new random (Hellenic) character.
      * @return The character
-     */   
+     */
     private Character getRandomChar() {
         final String alphabet = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ";
         final int N = alphabet.length();
 
         return alphabet.charAt(random.nextInt(N));
     }
-    
-     /*
+
+    /*
      * Debug method to print the array.
      * @return nothing.
-     */     
+     */
     public void show() {
         System.out.println("------------------------");
         for (int i = 0; i < boardLength; i++) {
@@ -237,5 +233,30 @@ public class Board implements BoardInterface {
             System.out.println();
         }
         System.out.println("------------------------");
+    }
+
+    //Delete a row of the game board
+    public void deleteRow(Integer int_row) {
+
+    }
+
+    //Reorder a row of the game board
+    public void reorderRow(Integer int_row) {
+
+    }
+
+    //Reorder a column of the game board
+    public void reorderColumn(Integer int_column) {
+
+    }
+
+    //Reorder the game board
+    public void reorderBoard() {
+        shuffle(boardArray);
+    }
+
+    //Swap 2 Letters
+    public void swapLetters(Letter letter1, Letter letter2) {
+
     }
 }
