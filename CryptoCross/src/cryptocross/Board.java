@@ -196,4 +196,29 @@ public class Board implements BoardInterface {
         }
         System.out.println("------------------------");
     }
+    
+    //Delete a row from the board
+    public void deleteRow(Integer int_row) {
+        
+    }
+    
+    //Reorder a row from the board
+    public void reorderRow(Integer int_row) {
+        
+    }
+    
+    //Reorder a column from the board
+    public void reorderColumn(Integer int_column) {
+        
+    }
+    
+    //Reorder the board
+    public void reorderBoard() {
+        shuffle(boardArray);
+    }
+    
+    //Swap 2 Letters
+    public void swapLetters(Letter letter1, Letter letter2) {
+        
+    }
 }
