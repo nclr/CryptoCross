@@ -24,8 +24,10 @@ public class CryptoCross extends JFrame {
     private Player player; //Player object for the player
     private Board gameBoard; //Board object for the game board
     private WordPilot wordPilot;
-    private Integer int_maxAllowedWords;
-    private Integer int_goalPoints;
+    private Integer int_maxAllowedWords; //The max number of words the player is
+    //allowed to complete
+    private Integer int_goalPoints; //The target/goal number of points to be attained
+    //by the player.
     private Integer int_currentWordPoints;
 
     //Total allowed helps

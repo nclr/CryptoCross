@@ -11,12 +11,12 @@ import java.util.ArrayList;
 //Interface of the GameEngine class
 public interface GameEngineInterface {
     
-    public void initializeGame();
-    
-    public Integer getBoardSize();
-    
-    public void play();
-    
-    public Integer checkAndGradeWord(ArrayList al_word);
+//    public void initializeGame();
+//    
+//    public Integer getBoardSize();
+//    
+//    public void play();
+//    
+//    public Integer checkAndGradeWord(ArrayList al_word);
     
 }
