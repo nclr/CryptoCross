@@ -6,11 +6,10 @@
 package cryptocross;
 
 
-//Interface of the Board class
-public interface BoardInterface {
-    
-    public Letter[][] getBoardArray();
-    
-    public Integer getBoardLength();
+class UknownCharacterException extends Exception {
+
+    public UknownCharacterException() {
+        super("Σφάλμα! Άγνωστος χαρακτήρας");
+    }
     
 }

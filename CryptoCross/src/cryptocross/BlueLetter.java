@@ -5,18 +5,23 @@
  */
 package cryptocross;
 
+import java.awt.Color;
+
 //Class of a single letter
 public class BlueLetter extends Letter {
     
     //Constructors
-    public BlueLetter(Letter.Alphabet enum_letter) {
-        super(enum_letter);
-        //this.ch_letter = ch_letter;
-        //this.enum_letter = enum_letter;
-    }
-
-    public BlueLetter(Character ch_letter) {
+    public BlueLetter(Character ch_letter) throws UknownCharacterException {
         super(ch_letter);
+        assignPoints();
+        setColor(Color.BLUE);
+    }
+    
+    public BlueLetter(Character ch_letter, Integer int_x_coord, Integer int_y_coord) 
+            throws UknownCharacterException {
+        super(ch_letter, int_x_coord, int_y_coord);
+        assignPoints();
+        setColor(Color.BLUE);
     }
     
     @Override

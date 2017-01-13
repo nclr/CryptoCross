@@ -13,7 +13,6 @@ import java.util.List;
 //Class for the game board
 public class Board implements BoardInterface {
 
-    //List<List<Letter>> letterBoard; //List of lists for the letters
     private Integer boardLength;
     private Letter[][] boardArray;
     private Dictionary dict;
@@ -25,7 +24,7 @@ public class Board implements BoardInterface {
 
     private int redCount = 0, blueCount = 0, balCount = 0;
     
-    public Board(Integer boardLength) {
+    public Board(Integer boardLength) throws UknownCharacterException {
         this.boardLength = boardLength;
         boardArray = new Letter[boardLength][boardLength];
         random = new SecureRandom();
@@ -35,7 +34,7 @@ public class Board implements BoardInterface {
         generateBoard();
     }
     
-    private void generateBoard() {
+    private void generateBoard() throws UknownCharacterException {
         
         switch (boardLength) {
             case 5:
@@ -80,6 +79,7 @@ public class Board implements BoardInterface {
             while (j < boardLength) {
                 Character c = getRandomChar();
                 Letter let = decideColor(i, j, c);
+                //let.assignPoints();
                 boardArray[i][j] = let;
                 j++;
             }
@@ -108,7 +108,7 @@ public class Board implements BoardInterface {
     }
 
     
-    private Letter decideColor(int x, int y, char c) {
+    private Letter decideColor(int x, int y, char c) throws UknownCharacterException {
         if (isColored(x,y)) {
             if (redCount > 0) {
                 redCount--;
@@ -119,7 +119,7 @@ public class Board implements BoardInterface {
                 return new BlueLetter(c);
             }
             else {
-                return new BalandeurLetter(c);
+                return new BalandeurLetter('?');
             }
         }
         
@@ -167,6 +167,10 @@ public class Board implements BoardInterface {
         return boardArray;
     }
     
+    public Integer getBoardLength() {
+        return boardLength;
+    }
+    
     private Character getRandomChar() {
         final String alphabet = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ";
         final int N = alphabet.length();
@@ -178,7 +182,7 @@ public class Board implements BoardInterface {
         System.out.println("------------------------");
         for (int i = 0; i < boardLength; i++) {
             for (int j = 0; j < boardLength; j++) {
-                System.out.print(boardArray[i][j].ch_letter + " ");
+                System.out.print(boardArray[i][j].getLetterChar() + " ");
             }
             System.out.println();
         }

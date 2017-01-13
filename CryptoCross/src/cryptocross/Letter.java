@@ -11,7 +11,7 @@ import java.awt.Color;
 public abstract class Letter {
 
     protected Character ch_letter; //The character/letter it represents
-    protected Alphabet enum_letter; //The character/letter it represents
+    //protected Alphabet enum_letter; //The character/letter it represents
     protected Integer int_x_coord; //The x coordinate of the letter on the board
     protected Integer int_y_coord; //The y coordinate of the letter on the board
     protected Boolean tf_belongsToWord; //Flag: belongs to a marked word
@@ -19,17 +19,12 @@ public abstract class Letter {
     protected Color col_color; //Color group of letter, each color represents a different
     //points value
 
-    protected enum Alphabet {
-        A, 
-    }
-
     //Constructor
-    public Letter(Alphabet enum_letter) {
-        //this.ch_letter = ch_letter;
-        this.enum_letter = enum_letter;
+    public Letter(Character ch_letter) {
+        this.ch_letter = ch_letter;
     }
 
-    public Letter(Character ch_letter) {
+    public Letter(Character ch_letter, Integer int_x_coord, Integer int_y_coord) {
         this.ch_letter = ch_letter;
     }
 
@@ -69,43 +64,120 @@ public abstract class Letter {
 
     abstract void setPoints(Integer int_points);
 
+    public void setColor(Color col_color) {
+        this.col_color = col_color;
+    }
+
     //Assign points according to letter
-    protected void assignPoints() {
-        /*
-        switch (enum_letter) {
-            case Α:
-            case Ε:
-            case Η:
-            case Ι:
-            case Ν:
-            case Ο:
-            case Σ:
-            case Τ:
-                this.int_points = 1;
-                break;
-
-            case Β:
-            case Ζ:
-            case Θ:
-            case Φ:
-                this.int_points = 8;
-                break;
-
-            case Γ:
-            case Δ:
-                this.int_points = 4;
-                break;
-
-            //TO-DO: complete with the rest of the letters... 
-            default:
-
-                break;
+    protected void assignPoints() throws UknownCharacterException {
+        if (ch_letter == 'Α') {
+            int_points = 1;
+        } else if (ch_letter == 'Β') {
+            int_points = 8;
+        } else if (ch_letter == 'Γ') {
+            int_points = 4;
+        } else if (ch_letter == 'Δ') {
+            int_points = 4;
+        } else if (ch_letter == 'Ε') {
+            int_points = 1;
+        } else if (ch_letter == 'Ζ') {
+            int_points = 8;
+        } else if (ch_letter == 'Η') {
+            int_points = 1;
+        } else if (ch_letter == 'Θ') {
+            int_points = 8;
+        } else if (ch_letter == 'Ι') {
+            int_points = 1;
+        } else if (ch_letter == 'Κ') {
+            int_points = 2;
+        } else if (ch_letter == 'Λ') {
+            int_points = 3;
+        } else if (ch_letter == 'Μ') {
+            int_points = 3;
+        } else if (ch_letter == 'Ν') {
+            int_points = 1;
+        } else if (ch_letter == 'Ξ') {
+            int_points = 10;
+        } else if (ch_letter == 'Ο') {
+            int_points = 1;
+        } else if (ch_letter == 'Π') {
+            int_points = 2;
+        } else if (ch_letter == 'Ρ') {
+            int_points = 2;
+        } else if (ch_letter == 'Σ') {
+            int_points = 1;
+        } else if (ch_letter == 'Τ') {
+            int_points = 1;
+        } else if (ch_letter == 'Υ') {
+            int_points = 2;
+        } else if (ch_letter == 'Φ') {
+            int_points = 8;
+        } else if (ch_letter == 'Χ') {
+            int_points = 10;
+        } else if (ch_letter == 'Ψ') {
+            int_points = 10;
+        } else if (ch_letter == 'Ω') {
+            int_points = 3;
+        } else if (ch_letter == '?') {
+            int_points = 1;
         }
-*/
+
+//        switch (ch_letter) {
+//            case 'Α':
+//            case 'Ε':
+//            case 'Η':
+//            case 'Ι':
+//            case 'Ν':
+//            case 'Ο':
+//            case 'Σ':
+//            case 'Τ':
+//                this.int_points = 1;
+//                break;
+//
+//            case 'Ξ':
+//            case 'Χ':
+//            case 'Ψ':
+//                this.int_points = 10;
+//                break;
+//
+//            case 'Β':
+//            case 'Ζ':
+//            case 'Θ':
+//            case 'Φ':
+//                this.int_points = 8;
+//                break;
+//
+//            case 'Γ':
+//            case 'Δ':
+//                this.int_points = 4;
+//                break;
+//
+//            case 'Λ':
+//            case 'Μ':
+//            case 'Ω':
+//                this.int_points = 3;
+//                break;
+//
+//            case 'K':
+//            case 'Π':
+//            case 'Ρ':
+//            case 'Υ':
+//                this.int_points = 2;
+//                break;
+//
+//            default:
+//                throw new UknownCharacterException();
+//            //break;
+//        }
     }
 
     public void setCoords(Integer int_x_coord, Integer int_y_coord) {
         this.int_x_coord = int_x_coord;
         this.int_y_coord = int_y_coord;
+    }
+
+    @Override
+    public String toString() {
+        return "Letter:" + "Character: " + ch_letter + ", Points: " + int_points + ", xCoord: " + int_x_coord + ", yCoord: " + int_y_coord;
     }
 }
