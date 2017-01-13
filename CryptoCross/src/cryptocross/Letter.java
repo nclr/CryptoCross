@@ -122,53 +122,6 @@ public abstract class Letter {
             int_points = 1;
         }
 
-//        switch (ch_letter) {
-//            case 'Α':
-//            case 'Ε':
-//            case 'Η':
-//            case 'Ι':
-//            case 'Ν':
-//            case 'Ο':
-//            case 'Σ':
-//            case 'Τ':
-//                this.int_points = 1;
-//                break;
-//
-//            case 'Ξ':
-//            case 'Χ':
-//            case 'Ψ':
-//                this.int_points = 10;
-//                break;
-//
-//            case 'Β':
-//            case 'Ζ':
-//            case 'Θ':
-//            case 'Φ':
-//                this.int_points = 8;
-//                break;
-//
-//            case 'Γ':
-//            case 'Δ':
-//                this.int_points = 4;
-//                break;
-//
-//            case 'Λ':
-//            case 'Μ':
-//            case 'Ω':
-//                this.int_points = 3;
-//                break;
-//
-//            case 'K':
-//            case 'Π':
-//            case 'Ρ':
-//            case 'Υ':
-//                this.int_points = 2;
-//                break;
-//
-//            default:
-//                throw new UknownCharacterException();
-//            //break;
-//        }
     }
 
     public void setCoords(Integer int_x_coord, Integer int_y_coord) {

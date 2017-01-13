@@ -24,6 +24,7 @@ public class CryptoCross extends JFrame {
     private Player player; //Player object for the player
     private Board gameBoard; //Board object for the game board
     private WordPilot wordPilot;
+    private Integer int_maxAllowedWords;
     private Integer int_goalPoints;
     private Integer int_currentWordPoints;
 
@@ -130,6 +131,8 @@ public class CryptoCross extends JFrame {
         initializeGameValues(); //goal score & helps
 
         initializeGUI();
+        
+        checkHelps();
 
     }
 
@@ -157,6 +160,7 @@ public class CryptoCross extends JFrame {
         int_currentWordPoints = 0;
         
         if (gameBoard.getBoardLength() == 5) {
+            int_maxAllowedWords = 4;
             int_goalPoints = 200;
             int_TotalDeleteRow = 3;
             int_TotalReorderRow = 3;
@@ -164,6 +168,7 @@ public class CryptoCross extends JFrame {
             int_TotalReorderBoard = 5;
             int_TotalSwapLetter = 6;
         } else if (gameBoard.getBoardLength() == 8) {
+            int_maxAllowedWords = 6;
             int_goalPoints = 300;
             int_TotalDeleteRow = 4;
             int_TotalReorderRow = 4;
@@ -171,6 +176,7 @@ public class CryptoCross extends JFrame {
             int_TotalReorderBoard = 7;
             int_TotalSwapLetter = 8;
         } else {
+            int_maxAllowedWords = 8;
             int_goalPoints = 400;
             int_TotalDeleteRow = 5;
             int_TotalReorderRow = 5;
@@ -184,6 +190,24 @@ public class CryptoCross extends JFrame {
         int_UsedReorderColumn = 0;
         int_UsedReorderBoard = 0;
         int_UsedSwapLetter = 0;
+    }
+    
+    //Checks if any more helps are available and grays out accordingly
+    private void checkHelps() {
+        if (int_UsedDeleteRow == int_TotalDeleteRow) {
+            btn_deleteRow.setEnabled(false);
+            tf_deleteRow.setEnabled(false);
+        }
+        if (int_UsedReorderRow == int_TotalReorderRow) {
+            btn_reorderRow.setEnabled(false);
+            tf_reorderRow.setEnabled(false);
+            lb_reorderRow.setEnabled(false);
+        }
+        if (int_UsedReorderColumn == int_TotalReorderColumn) {
+            btn_reorderColumn.setEnabled(false);
+            tf_reorderColumn.setEnabled(false);
+            lb_reorderColumn.setEnabled(false);
+        }
     }
 
     private void initializePlayer() {
@@ -303,7 +327,7 @@ public class CryptoCross extends JFrame {
         lb1_wordPoints = new JLabel("Βαθμολογία Λέξης:");
         lb2_wordPoints = new JLabel(Integer.toString(int_currentWordPoints));
         lb1_wordsFound = new JLabel("Λέξεις που βρέθηκαν:");
-        lb2_wordsFound = new JLabel(player.getCompletedWordsNum() + "/" + gameBoard.getWordsNum());
+        lb2_wordsFound = new JLabel(player.getCompletedWordsNum() + "/" + int_maxAllowedWords);
         lb_foundAword = new JLabel("");
 
         row1Panel = new JPanel(new BorderLayout());
@@ -318,14 +342,14 @@ public class CryptoCross extends JFrame {
         row10Panel = new JPanel(new BorderLayout());
 
         //Right Row1
-        row1Panel.add(btn_reorderRow, BorderLayout.LINE_START);
+        row1Panel.add(btn_deleteRow, BorderLayout.LINE_START);
         row1Panel.add(tf_deleteRow, BorderLayout.CENTER);
         row1Panel.add(lb_deleteRow, BorderLayout.LINE_END);
 
         rightPanel.add(row1Panel);
 
         //Right Row2
-        row2Panel.add(btn_deleteRow, BorderLayout.LINE_START);
+        row2Panel.add(btn_reorderRow, BorderLayout.LINE_START);
         row2Panel.add(tf_reorderRow, BorderLayout.CENTER);
         row2Panel.add(lb_reorderRow, BorderLayout.LINE_END);
 
