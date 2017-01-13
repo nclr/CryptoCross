@@ -25,6 +25,10 @@ public class Board implements BoardInterface {
 
     private int redCount = 0, blueCount = 0, balCount = 0;
     
+     /*
+     * Constuctor.
+     * @param boardLength The length of the board
+     */
     public Board(Integer boardLength) throws UknownCharacterException {
         this.boardLength = boardLength;
         boardArray = new Letter[boardLength][boardLength];
@@ -37,6 +41,10 @@ public class Board implements BoardInterface {
         generateBoard();
     }
     
+    /*
+     * Method to generate a new board based on boardLength.
+     * @return nothing.
+     */
     private void generateBoard() throws UknownCharacterException {
         
         switch (boardLength) {
@@ -57,6 +65,8 @@ public class Board implements BoardInterface {
                 break;
         }
         
+        /* We determine what colors should be placed in each letter. */
+        
         coloredLettersCount = redCount + blueCount + balCount;
 
         coloredX = randomArrayGen(coloredLettersCount);
@@ -76,14 +86,12 @@ public class Board implements BoardInterface {
                     j++;
                 }
             }
-            
         }
         
         while (i < boardLength) {
             while (j < boardLength) {
                 Character c = getRandomChar();
                 Letter let = decideColor(i, j, c);
-                //let.assignPoints();
                 boardArray[i][j] = let;
                 j++;
             }
@@ -91,6 +99,7 @@ public class Board implements BoardInterface {
             i++;
         }
         
+        /* We shuffle the board using Fisher-Yates algorithm. */
         show();
         shuffle(boardArray);
         show();
@@ -111,7 +120,13 @@ public class Board implements BoardInterface {
         }
     }
 
-    
+    /*
+     * Method to decide color for a letter
+     * @param x letter's row on board.
+     * @param y letter's column on board.
+     * @param c the character for which we decide the color.
+     * @return Letter.
+     */
     private Letter decideColor(int x, int y, char c) throws UknownCharacterException {
         if (isColored(x,y)) {
             if (redCount > 0) {
@@ -130,6 +145,10 @@ public class Board implements BoardInterface {
         return new WhiteLetter(c);
     }
     
+    /*
+     * Method to return if a letter is colord.
+     * @return true if colored or false for the opposite.
+     */
     private Boolean isColored(int x, int y) {
         for (int i = 0; i < coloredLettersCount; i++) {
             if (coloredX[i] == x && coloredY[i] == y) {
@@ -139,6 +158,11 @@ public class Board implements BoardInterface {
         return false;
     }
     
+    /*
+     * Method to generate a new random array.
+     * @param size The size of the array.
+     * @return Array of Integers.
+     */
     private int[] randomArrayGen(Integer size) {
         
         int result[] = new int[size];
@@ -156,6 +180,12 @@ public class Board implements BoardInterface {
         return result;
     }
     
+    /*
+     * Method to find if a certain number exists in an array.
+     * @param number The number to find.
+     * @param array The array.
+     * @return True if exists or false if the opposite.
+     */
     private Boolean existInArray(int number, int[] array) {
 
         for (int i = 0; i < array.length; i++) {
@@ -167,6 +197,10 @@ public class Board implements BoardInterface {
         return false;
     }
 
+    /*
+     * Getters.
+     */
+    
     public Letter[][] getBoardArray() {
         return boardArray;
     }
@@ -179,6 +213,10 @@ public class Board implements BoardInterface {
         return wordsNum;
     }
     
+     /*
+     * Method to generate a new random (Hellenic) character.
+     * @return The character
+     */   
     private Character getRandomChar() {
         final String alphabet = "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ";
         final int N = alphabet.length();
@@ -186,6 +224,10 @@ public class Board implements BoardInterface {
         return alphabet.charAt(random.nextInt(N));
     }
     
+     /*
+     * Debug method to print the array.
+     * @return nothing.
+     */     
     public void show() {
         System.out.println("------------------------");
         for (int i = 0; i < boardLength; i++) {
