@@ -200,6 +200,10 @@ public class CryptoCross extends JFrame {
 
     //Checks if any more helps are available and grays out accordingly
     private void checkHelps() {
+        lb_deleteRow.setText(int_UsedDeleteRow + "/" + int_TotalDeleteRow);
+        lb_reorderRow.setText(int_UsedReorderRow + "/" + int_TotalReorderRow);
+        lb_reorderColumn.setText(int_UsedReorderColumn + "/" + int_TotalReorderColumn);
+        
         if (int_UsedDeleteRow == int_TotalDeleteRow) {
             btn_deleteRow.setEnabled(false);
             tf_deleteRow.setEnabled(false);
@@ -295,7 +299,9 @@ public class CryptoCross extends JFrame {
 
         leftPanel = new JPanel(new BorderLayout());
 
-        addGameBoardToGUI(); //Prints the game board
+        setupGameBoard(); //Prints the game board
+
+        leftPanel.add(boardPanel, BorderLayout.NORTH);
 
         btn_checkWord = new JButton("Έλεγχος λέξης");
 
@@ -438,7 +444,7 @@ public class CryptoCross extends JFrame {
         setResizable(false);
     }
 
-    private void addGameBoardToGUI() {
+    private void setupGameBoard() {
         boardPanel = new JPanel(new GridLayout(gameBoard.getBoardLength(), gameBoard.getBoardLength(), 2, 2));
         ar_letters = gameBoard.getBoardArray();
 
@@ -497,8 +503,11 @@ public class CryptoCross extends JFrame {
                 btnArray_letter[i][j].setPreferredSize(new Dimension(48, 48));
 
                 Letter tempLetter = ar_letters[i][j];
-                Integer tempXpos = currentWord.get(currentWord.size() - 1).getXcoord();
-                Integer tempYpos = currentWord.get(currentWord.size() - 1).getYcoord();
+
+                if (currentWord.size() > 0) {
+                    Integer tempXpos = currentWord.get(currentWord.size() - 1).getXcoord();
+                    Integer tempYpos = currentWord.get(currentWord.size() - 1).getYcoord();
+                }
 
                 btnArray_letter[i][j].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -517,7 +526,7 @@ public class CryptoCross extends JFrame {
                 boardPanel.add(btnArray_letter[i][j]);
             }
         }
-        leftPanel.add(boardPanel, BorderLayout.NORTH);
+
     }
 
     private void initializeMenuBar() {
@@ -665,19 +674,41 @@ public class CryptoCross extends JFrame {
 //            }
 //        }
         if (e.getSource() == btn_checkWord) {
-
-        } else if (e.getSource() == btn_checkWord) {
             gameBoard.checkWordValidity(currentWord);
+
         } else if (e.getSource() == btn_deleteRow) {
+            if (int_TotalDeleteRow - int_UsedDeleteRow > 0) {
+                gameBoard.deleteRow(Integer.parseInt(tf_deleteRow.getText()));
+                int_UsedDeleteRow++;
+                checkHelps(); //Checks if allowed num of times is reached and grays out accordingly
+            }
 
         } else if (e.getSource() == btn_reorderRow) {
+            if (int_TotalReorderRow - int_UsedReorderRow > 0) {
+                gameBoard.reorderRow(Integer.parseInt(tf_reorderRow.getText()));
+                int_UsedReorderRow++;
+                checkHelps();
+            }
 
         } else if (e.getSource() == btn_reorderColumn) {
+            if (int_TotalReorderColumn - int_UsedReorderColumn > 0) {
+                gameBoard.reorderColumn(Integer.parseInt(tf_reorderColumn.getText()));
+                int_UsedReorderColumn++;
+                checkHelps();
+            }
 
         } else if (e.getSource() == btn_reorderBoard) {
+            if (int_TotalReorderBoard - int_UsedReorderBoard > 0) {
+                gameBoard.reorderBoard();
+                int_UsedReorderBoard++;
+                checkHelps();
+            }
 
         } else if (e.getSource() == btn_swapLetters) {
-
+            if (int_TotalSwapLetter - int_UsedSwapLetter > 0) {
+                int_UsedSwapLetter++;
+                checkHelps();
+            }
         }
     }
 
