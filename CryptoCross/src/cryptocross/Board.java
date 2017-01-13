@@ -17,6 +17,7 @@ public class Board implements BoardInterface {
     private Letter[][] boardArray;
     private Dictionary dict;
     private SecureRandom random;
+    private Integer wordsNum;
     
     private int coloredX[];
     private int coloredY[];
@@ -30,6 +31,8 @@ public class Board implements BoardInterface {
         random = new SecureRandom();
         
         dict = new Dictionary("el-dictionary.txt", boardLength);
+        
+        wordsNum = 0;
         
         generateBoard();
     }
@@ -61,6 +64,7 @@ public class Board implements BoardInterface {
         
         int i = 0, j = 0;
         for (String word : dict.getBoardWords()) {
+            wordsNum++;
             for (char c : word.toCharArray()) {
                 Letter let = decideColor(i,j,c);
                 boardArray[i][j] = let;
@@ -169,6 +173,10 @@ public class Board implements BoardInterface {
     
     public Integer getBoardLength() {
         return boardLength;
+    }
+    
+    public Integer getWordsNum() {
+        return wordsNum;
     }
     
     private Character getRandomChar() {

@@ -13,4 +13,6 @@ public interface BoardInterface {
     
     public Integer getBoardLength();
     
+    public Integer getWordsNum();
+    
 }

@@ -23,14 +23,16 @@ public class CryptoCross extends JFrame {
     private Letter[][] ar_letters; //board letter array
     private Player player; //Player object for the player
     private Board gameBoard; //Board object for the game board
-    private GameEngine gameEngine;
-    
+    private WordPilot wordPilot;
+    private Integer int_goalPoints;
+    private Integer int_currentWordPoints;
+
     //Total allowed helps
-    private final Integer int_TotalDeleteRow = 3;
-    private final Integer int_TotalReorderRow = 3;
-    private final Integer int_TotalReorderColumn = 3;
-    private final Integer int_TotalReorderBoard = 5;
-    private final Integer int_TotalSwapLetter = 6;
+    private Integer int_TotalDeleteRow = 3;
+    private Integer int_TotalReorderRow = 3;
+    private Integer int_TotalReorderColumn = 3;
+    private Integer int_TotalReorderBoard = 5;
+    private Integer int_TotalSwapLetter = 6;
 
     //Number of used helps
     private Integer int_UsedDeleteRow;
@@ -47,6 +49,7 @@ public class CryptoCross extends JFrame {
     private JPanel boardPanel; //Child of leftPanel
     private JPanel helpPanel; //Child of rightPanel
     private JPanel playerNamePanel; //Child of contentPane
+    //Rows of rightPanel
     private JPanel row1Panel;
     private JPanel row2Panel;
     private JPanel row3Panel;
@@ -106,13 +109,7 @@ public class CryptoCross extends JFrame {
     //Constructor
     public CryptoCross() {
 
-        
-        
-        int_UsedDeleteRow = 0;
-        int_UsedReorderRow = 0;
-        int_UsedReorderColumn = 0;
-        int_UsedReorderBoard = 0;
-        int_UsedSwapLetter = 0;
+        wordPilot = new WordPilot(ar_letters);   
 
         thisFrame = this;
 
@@ -129,8 +126,8 @@ public class CryptoCross extends JFrame {
         } catch (UknownCharacterException ex) {
             Logger.getLogger(CryptoCross.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        gameEngine = new GameEngine();
+        
+        initializeGameValues(); //goal score & helps
 
         initializeGUI();
 
@@ -154,6 +151,39 @@ public class CryptoCross extends JFrame {
                 new CryptoCross();
             }
         });
+    }
+
+    private void initializeGameValues() {
+        int_currentWordPoints = 0;
+        
+        if (gameBoard.getBoardLength() == 5) {
+            int_goalPoints = 200;
+            int_TotalDeleteRow = 3;
+            int_TotalReorderRow = 3;
+            int_TotalReorderColumn = 3;
+            int_TotalReorderBoard = 5;
+            int_TotalSwapLetter = 6;
+        } else if (gameBoard.getBoardLength() == 8) {
+            int_goalPoints = 300;
+            int_TotalDeleteRow = 4;
+            int_TotalReorderRow = 4;
+            int_TotalReorderColumn = 4;
+            int_TotalReorderBoard = 7;
+            int_TotalSwapLetter = 8;
+        } else {
+            int_goalPoints = 400;
+            int_TotalDeleteRow = 5;
+            int_TotalReorderRow = 5;
+            int_TotalReorderColumn = 5;
+            int_TotalReorderBoard = 8;
+            int_TotalSwapLetter = 10;
+        }
+
+        int_UsedDeleteRow = 0;
+        int_UsedReorderRow = 0;
+        int_UsedReorderColumn = 0;
+        int_UsedReorderBoard = 0;
+        int_UsedSwapLetter = 0;
     }
 
     private void initializePlayer() {
@@ -261,21 +291,21 @@ public class CryptoCross extends JFrame {
         tf_reorderColumn = new JTextField("0");
 
         //Help Labels
-        lb_deleteRow = new JLabel("0/3");
-        lb_reorderRow = new JLabel("0/3");
-        lb_reorderColumn = new JLabel("0/3");
-        lb_reorderBoard = new JLabel("0/5");
-        lb_swapLetters = new JLabel("0/6");
+        lb_deleteRow = new JLabel(int_UsedDeleteRow + "/" + int_TotalDeleteRow);
+        lb_reorderRow = new JLabel(int_UsedReorderRow + "/" + int_TotalReorderRow);
+        lb_reorderColumn = new JLabel(int_UsedReorderColumn + "/" + int_TotalReorderColumn);
+        lb_reorderBoard = new JLabel(int_UsedReorderBoard + "/" + int_TotalReorderBoard);
+        lb_swapLetters = new JLabel(int_UsedSwapLetter + "/" + int_TotalSwapLetter);
         lb1_goalPoints = new JLabel("Στόχος:");
-        lb2_goalPoints = new JLabel("200");
+        lb2_goalPoints = new JLabel(Integer.toString(int_goalPoints));
         lb1_totalPoints = new JLabel("Συνολική Βαθμολογία:");
-        lb2_totalPoints = new JLabel("0");
+        lb2_totalPoints = new JLabel(Integer.toString(player.getPlayerScore()));
         lb1_wordPoints = new JLabel("Βαθμολογία Λέξης:");
-        lb2_wordPoints = new JLabel("0");
+        lb2_wordPoints = new JLabel(Integer.toString(int_currentWordPoints));
         lb1_wordsFound = new JLabel("Λέξεις που βρέθηκαν:");
-        lb2_wordsFound = new JLabel("0/4");
+        lb2_wordsFound = new JLabel(player.getCompletedWordsNum() + "/" + gameBoard.getWordsNum());
         lb_foundAword = new JLabel("");
-        
+
         row1Panel = new JPanel(new BorderLayout());
         row2Panel = new JPanel(new BorderLayout());
         row3Panel = new JPanel(new BorderLayout());
@@ -286,67 +316,67 @@ public class CryptoCross extends JFrame {
         row8Panel = new JPanel(new BorderLayout());
         row9Panel = new JPanel(new BorderLayout());
         row10Panel = new JPanel(new BorderLayout());
-        
+
         //Right Row1
         row1Panel.add(btn_reorderRow, BorderLayout.LINE_START);
         row1Panel.add(tf_deleteRow, BorderLayout.CENTER);
         row1Panel.add(lb_deleteRow, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row1Panel);
-        
+
         //Right Row2
         row2Panel.add(btn_deleteRow, BorderLayout.LINE_START);
         row2Panel.add(tf_reorderRow, BorderLayout.CENTER);
         row2Panel.add(lb_reorderRow, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row2Panel);
-        
+
         //Right Row3
         row3Panel.add(btn_reorderColumn, BorderLayout.LINE_START);
         row3Panel.add(tf_reorderColumn, BorderLayout.CENTER);
         row3Panel.add(lb_reorderColumn, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row3Panel);
-        
+
         //Right Row4
         row4Panel.add(btn_reorderBoard, BorderLayout.LINE_START);
         row4Panel.add(lb_reorderBoard, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row4Panel);
-        
+
         //Right Row5
         row5Panel.add(btn_swapLetters, BorderLayout.LINE_START);
         row5Panel.add(lb_swapLetters, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row5Panel);
-        
+
         //Right Row6
         row6Panel.add(lb1_goalPoints, BorderLayout.LINE_START);
         row6Panel.add(lb2_goalPoints, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row6Panel);
-        
+
         //Right Row7
         row7Panel.add(lb1_totalPoints, BorderLayout.LINE_START);
         row7Panel.add(lb2_totalPoints, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row7Panel);
-        
+
         //Right Row8
         row8Panel.add(lb1_wordPoints, BorderLayout.LINE_START);
         row8Panel.add(lb2_wordPoints, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row8Panel);
-        
+
         //Right Row9
         row9Panel.add(lb1_wordsFound, BorderLayout.LINE_START);
         row9Panel.add(lb2_wordsFound, BorderLayout.LINE_END);
-        
+
         rightPanel.add(row9Panel);
-        
+
         //Right Row10
         row10Panel.add(lb_foundAword, BorderLayout.LINE_START);
-        
+
         rightPanel.add(row10Panel);
 
         containerPanel.add(leftPanel);
